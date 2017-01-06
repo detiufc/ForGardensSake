@@ -39,7 +39,6 @@ void loop ()
   }
   
   pulsoAnterior = pulsoAtual;
-  
   intervalo = millis() - inicioIntervalo;
    
   //Calcula a vazao a cada 1s
@@ -49,26 +48,21 @@ void loop ()
     qtdSegundos++;
     inicioIntervalo = millis();
     contaPulsos = 0;
-      
-    //Serial.print("Vazao atual: ");
-    //Serial.print(vazao); //Vazão de 1s
-    //Serial.println(" L/min.");
   }
 
   //Calcula a vazao a cada 10 segundos e envia a vazao pela porta serial
   if(qtdSegundos == tempoMensagem){
     mediaVazao = mediaVazao/tempoMensagem;
-    //Serial.println("----------------------\n Media da vazao em 1 minuto: ");
     Serial.print(mediaVazao);
-    //Serial.println("----------------------");
     qtdSegundos = 0;
     mediaVazao = 0;
     Serial.flush();
    }
 
-   //Verifica se há algum dado no buffer
-   if (Serial.available() > 0){
+  //Verifica se há algum dado no buffer
+  if (Serial.available() > 0){
     mensagem = Serial.readString();   
+    
     if(mensagem == "IniciaIrrigacao"){
       digitalWrite(pinoRele,LOW);
       }
@@ -77,4 +71,4 @@ void loop ()
       }
    }
    
-} 
+}

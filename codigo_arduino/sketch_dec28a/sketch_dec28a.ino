@@ -3,7 +3,6 @@
  * biblioteca: https://github.com/adafruit/DHT-sensor-library
 */
 
-#include <SoftwareSerial.h>
 #include <DHT.h>
 
 #define pinoUmidade A0
@@ -13,14 +12,12 @@
 
 int valorUmidade = 0; //Variavel para armazena o valor do sensor de umidade
 int valorChuva = 0; //Variavel para armazena o valor do sensor de chuva
-SoftwareSerial serial2(2,3); //cria uma serial com RX no pino 2 e TX no pino 3
 DHT dht(pinoTemperatura, dhttipo);
 float valorTemperatura = 0; //Variavel para armazena o valor do sensor de temperatura
 String t1 = ";umidade=";
 String t2 = ";chuva=";
 String t3 = ";temperatura=";
 String mensagem;
-
   
 void setup()
 {
@@ -29,21 +26,20 @@ void setup()
   pinMode(pinoChuva,INPUT);
  
   Serial.begin(115200);
-  serial2.begin(115200);
   dht.begin();
 }
 
-
 void loop()
 {
+ 
   valorChuva = analogRead(pinoChuva);
   
   valorUmidade = analogRead(pinoUmidade);
-  
-  valorTemperatura = dht.readTemperature();
-  
+ 
+  valorTemperatura = dht.readTemperature();  
 
   mensagem = t1 + valorUmidade + t2 + valorChuva + t3 + valorTemperatura;
+ 
   Serial.println(mensagem);
   
   delay(10000); 
@@ -93,18 +89,3 @@ void mostraUmidadeSolo(int umidade){
   Serial.print(temperatura);
   Serial.println(" Celsius");
 }
-
-  //mostraChuva(valorChuva);
-  //mostraUmidadeSolo(valorUmidade);
-  //mostraTemperatura(valorTemperatura);
-  //Serial.println("-------------------------------------------------- \n");
-
-  /*if (valorChuva<600 || valorUmidade<800 || valorTemperatura>32)
-  {
-    serial2.print("CancelaIrrigacao"); 
-    //digitalWrite(pinoRele,HIGH);
-   }
-  else{
-    //digitalWrite(pinoRele,LOW);
-    serial2.print("IniciaIrrigacao");
-  } */
